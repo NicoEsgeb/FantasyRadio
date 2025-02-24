@@ -1,0 +1,16 @@
+/* ============================================================= */
+/*                          CLOCK STYLE                          */
+/* ============================================================= */
+#clock {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: #0ff;               /* Cyan text to match your theme */
+    font-family: 'Courier New', monospace; /* A monospaced, retro feel */
+    font-size: 1.2em;
+    background: rgba(0, 0, 0, 0.5);  /* Semi-transparent black background */
+    padding: 5px 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+    z-index: 100;             /* Ensure it stays on top */
+}
