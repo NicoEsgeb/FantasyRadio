@@ -77,7 +77,9 @@
     <!-- ============================================================= -->
     <!--         SOUND EFFECTS MENU (DYNAMICALLY POPULATED)          -->
     <!-- ============================================================= -->
-    <div id="sound-effects-menu"></div>
+    <div id="sound-effects-menu">
+        <!-- (Sound effects buttons are dynamically inserted here by soundEffects.js) -->
+    </div>
 
     <!-- ============================================================= -->
     <!--                    STARS FOR AMBIENCE 1                     -->
@@ -216,13 +218,24 @@
         <span id="close-chat">&times;</span>
         <h3>Chat</h3>
     </div>
+    <!-- Chat size controls -->
+    <div class="chat-size-controls">
+        <button id="chat-decrease">–</button>
+        <button id="chat-increase">+</button>
+    </div>
+    <!-- Nickname input section with a Set button -->
+    <div class="chat-nickname">
+        <label for="nickname-input">Nickname:</label>
+        <input type="text" id="nickname-input" placeholder="Enter nickname" />
+        <button id="set-nickname">Set</button>
+    </div>
     <div id="chat-messages"></div>
     <div id="chat-input-container">
         <input type="text" id="chat-input" placeholder="Type a message..." />
         <button id="send-button">Send</button>
     </div>
 </div>
-<!-- Chat Button (Placed under the sound effects on the left side) -->
+<!-- Chat Button (Placed under the sound effects menu) -->
 <button id="chat-btn">Chat</button>
 
 <!-- New Chat JS will control the chat modal -->
