@@ -3,7 +3,7 @@
 /* ============================================================= */
 #sound-effects-menu {
     position: absolute;
-    top: 50%;
+    top: 30%;
     left: 20px;
     transform: translateY(-50%);
     z-index: 10;

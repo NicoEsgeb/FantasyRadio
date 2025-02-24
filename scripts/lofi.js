@@ -511,11 +511,6 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     /* ============================================================= */
-    /*             SOUND EFFECTS (BUTTONS & VOLUME SLIDERS)          */
-    /* ============================================================= */
-    // The SoundEffects manager is already instantiated and event listeners are attached dynamically.
-
-    /* ============================================================= */
     /*                 INITIALIZE AUDIO VISUALIZER                   */
     /* ============================================================= */
     const visualizerCanvas = document.getElementById("visualizer-canvas");

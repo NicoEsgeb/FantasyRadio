@@ -17,6 +17,8 @@
     <link rel="stylesheet" href="css/message.css">
     <link rel="stylesheet" href="css/extras.css">
     <link rel="stylesheet" href="css/fireflies.css">
+    <!-- New Chat CSS -->
+    <link rel="stylesheet" href="css/chat.css">
 
     <!-- Google Analytics Tracking Snippet -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-61WS06W417"></script>
@@ -24,7 +26,6 @@
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-
         // Tell Google Analytics this is the Fantasy Radio page
         gtag('config', 'G-61WS06W417', {
             'page_title': "Fantasy Radio Page",
@@ -34,6 +35,12 @@
 
     <!-- Load the YouTube IFrame API -->
     <script src="https://www.youtube.com/iframe_api"></script>
+
+    <!-- Firebase SDKs (Non‑module / Compat versions) -->
+    <!-- Firebase App (the core Firebase SDK) -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <!-- Firebase Realtime Database -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
 
     <!-- External Scripts -->
     <script defer src="scripts/bonfire.js"></script>
@@ -48,6 +55,8 @@
     <script defer src="scripts/rain.js"></script>
     <!-- New script for Rested Time tracking -->
     <script defer src="scripts/rested.js"></script>
+    <!-- New Chat Script (CDN/Non‑module version) -->
+    <script defer src="scripts/chat.js"></script>
 </head>
 <body>
 <!-- Clock at the top left corner -->
@@ -198,5 +207,24 @@
 <!--           RESTED TIME MESSAGE (Bottom Right)                  -->
 <!-- ============================================================= -->
 <div id="rested-time"></div>
+
+<!-- ============================================================= -->
+<!--           CHAT MODAL (Pop-up Chat Window)                       -->
+<!-- ============================================================= -->
+<div id="chat-modal">
+    <div class="chat-header">
+        <span id="close-chat">&times;</span>
+        <h3>Chat</h3>
+    </div>
+    <div id="chat-messages"></div>
+    <div id="chat-input-container">
+        <input type="text" id="chat-input" placeholder="Type a message..." />
+        <button id="send-button">Send</button>
+    </div>
+</div>
+<!-- Chat Button (Placed under the sound effects on the left side) -->
+<button id="chat-btn">Chat</button>
+
+<!-- New Chat JS will control the chat modal -->
 </body>
 </html>
