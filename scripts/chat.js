@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", function() {
         chatModal.style.transformOrigin = "top left";
     }
     chatDecrease.addEventListener("click", function(){
-        // Changed lower limit from 0.8 to 0.4 so you can scale down more
+        // Lower limit changed to 0.4 so you can scale down more
         chatScale = Math.max(0.4, chatScale - 0.1);
         updateChatScale();
     });
@@ -96,6 +96,8 @@ document.addEventListener("DOMContentLoaded", function() {
         // Apply the sender's color if available
         const colorStyle = messageData.color ? ` style="color: ${messageData.color};"` : "";
         messageElem.innerHTML = `<strong${colorStyle}>${sender}:</strong> ${messageData.text}`;
+        // Store the timestamp in a data attribute
+        messageElem.setAttribute("data-timestamp", messageData.timestamp);
         chatMessages.appendChild(messageElem);
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
@@ -130,4 +132,17 @@ document.addEventListener("DOMContentLoaded", function() {
             sendButton.click();
         }
     });
+
+    // Periodically remove messages older than one hour
+    setInterval(function() {
+        const now = Date.now();
+        const children = chatMessages.children;
+        for (let i = children.length - 1; i >= 0; i--) {
+            const msgEl = children[i];
+            const timestamp = parseInt(msgEl.getAttribute("data-timestamp"), 10);
+            if (now - timestamp > 3600000) { // 1 hour = 3600000 ms
+                chatMessages.removeChild(msgEl);
+            }
+        }
+    }, 60000); // Check every minute
 });
