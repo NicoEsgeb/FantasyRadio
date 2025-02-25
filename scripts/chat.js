@@ -96,14 +96,15 @@ document.addEventListener("DOMContentLoaded", function() {
         // Apply the sender's color if available
         const colorStyle = messageData.color ? ` style="color: ${messageData.color};"` : "";
         messageElem.innerHTML = `<strong${colorStyle}>${sender}:</strong> ${messageData.text}`;
-        // Store the timestamp in a data attribute
+        // Optionally, store the timestamp as a data attribute if needed later
         messageElem.setAttribute("data-timestamp", messageData.timestamp);
         chatMessages.appendChild(messageElem);
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 
-    // Listen for new messages added to Firebase and display them in real time
-    messagesRef.on("child_added", function(snapshot) {
+    // Use a Firebase query to only load messages newer than 1 hour ago
+    const oneHourAgo = Date.now() - 3600000;
+    messagesRef.orderByChild("timestamp").startAt(oneHourAgo).on("child_added", function(snapshot) {
         const messageData = snapshot.val();
         displayMessage(messageData);
     });
@@ -133,16 +134,16 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    // Periodically remove messages older than one hour
+    // (Optional) If you still want periodic deletion from the database,
+    // you can keep the following code. Otherwise, the query prevents old messages from loading.
+    /*
     setInterval(function() {
-        const now = Date.now();
-        const children = chatMessages.children;
-        for (let i = children.length - 1; i >= 0; i--) {
-            const msgEl = children[i];
-            const timestamp = parseInt(msgEl.getAttribute("data-timestamp"), 10);
-            if (now - timestamp > 3600000) { // 1 hour = 3600000 ms
-                chatMessages.removeChild(msgEl);
-            }
-        }
-    }, 60000); // Check every minute
+        const oneHourAgo = Date.now() - 3600000;
+        messagesRef.orderByChild("timestamp").endAt(oneHourAgo).once("value", function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+                childSnapshot.ref.remove();
+            });
+        });
+    }, 60000);
+    */
 });
