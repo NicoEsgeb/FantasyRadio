@@ -58,9 +58,9 @@ document.addEventListener("DOMContentLoaded", function() {
                     type: "youtube"
                 },
                 {
-                    name: "Lofi Fantasy",
-                    info: "Lofi Fantasy Radio – Chill & Dreamy",
-                    stream: "https://www.youtube.com/embed/9IOmDeoHSo8?autoplay=1&controls=0&modestbranding=1&rel=0",
+                    name: "Medieval Lofi",
+                    info: "Medieval Lofi Radio - Beats to Scribe Manuscripts",
+                    stream: "https://www.youtube.com/embed/IxPANmjPaek?autoplay=1&controls=0&modestbranding=1&rel=0",
                     type: "youtube"
                 }
             ],
@@ -149,8 +149,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 },
                 {
                     name: "Retrowave",
-                    info: "Retrowave – Retro beats",
-                    stream: "https://www.youtube.com/embed/SwhsegXolTs?autoplay=1&controls=0&modestbranding=1&rel=0",
+                    info: "Retrowave Mix | Night Drive 80s",
+                    stream: "https://www.youtube.com/embed/eliQooIjZX0?autoplay=1&controls=0&modestbranding=1&rel=0",
                     type: "youtube"
                 },
                 {
