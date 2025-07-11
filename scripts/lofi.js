@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 { name: "Rain", sound: "rain" },
                 { name: "Forest Surroundings", sound: "surroundings" }
             ],
-            message: "Lay down your burdens, traveler. The trees will keep watch."
+            message: "Lay down your burdens, traveller. The trees will keep watch."
         },
         2: {
             background: "assets/images/stage2.png",
