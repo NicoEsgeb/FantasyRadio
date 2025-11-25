@@ -5,15 +5,17 @@
 /* ============================================================= */
 #extras-btn, #ads-btn {
     position: fixed;
-    right: 10px;
-    background: rgba(0, 0, 0, 0.6);
-    color: #0ff;
-    border: 1px solid #0ff;
-    padding: 8px 12px;
-    border-radius: 5px;
+    right: 18px;
+    background: var(--panel);
+    color: var(--text);
+    border: 1px solid rgba(124, 231, 255, 0.4);
+    padding: 10px 12px;
+    border-radius: 12px;
     cursor: pointer;
     z-index: 200;
-    transition: background 0.3s;
+    transition: transform 0.2s ease, box-shadow 0.25s ease, background 0.25s ease;
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(10px);
 }
 
 /* Position the "Get to know me!" button at the top, and the ads button below it */
@@ -21,11 +23,13 @@
     top: 10px;
 }
 #ads-btn {
-    top: 60px;
+    top: 64px;
 }
 
 #extras-btn:hover, #ads-btn:hover {
-    background: rgba(0, 255, 255, 0.3);
+    background: linear-gradient(135deg, rgba(124, 231, 255, 0.28), rgba(192, 132, 255, 0.2));
+    transform: translateY(-2px);
+    box-shadow: 0 14px 28px rgba(124, 231, 255, 0.2);
 }
 
 /* ============================================================= */
@@ -48,24 +52,25 @@
 /* ============================================================= */
 #extras-modal .modal-content,
 #ads-modal .modal-content {
-    background-color: #111;
+    background-color: #0c1120;
     margin: 10% auto;
     padding: 20px;
-    border: 1px solid #0ff;
+    border: 1px solid rgba(124, 231, 255, 0.35);
     width: 80%;
     max-width: 500px;
-    color: #0ff;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
-    font-family: 'Courier New', monospace;
+    color: var(--text);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    font-family: "Avenir Next", "Segoe UI", "Helvetica Neue", sans-serif;
     text-align: center;
+    backdrop-filter: blur(12px);
 }
 
 /* ============================================================= */
 /*                      CLOSE BUTTON STYLE                        */
 /* ============================================================= */
 .close-extras, .close-ads {
-    color: #0ff;
+    color: var(--accent);
     float: right;
     font-size: 28px;
     font-weight: bold;
@@ -104,15 +109,17 @@
 }
 #extras-modal a.donation-link {
     display: inline-block;
-    background: #0ff;
-    color: #000;
-    padding: 8px 12px;
-    border-radius: 5px;
+    background: linear-gradient(135deg, rgba(124, 231, 255, 0.85), rgba(192, 132, 255, 0.8));
+    color: #050913;
+    padding: 10px 12px;
+    border-radius: 10px;
     text-decoration: none;
-    transition: background 0.3s;
+    transition: transform 0.2s ease, box-shadow 0.25s ease, background 0.25s ease;
+    box-shadow: 0 12px 24px rgba(124, 231, 255, 0.25);
 }
 #extras-modal a.donation-link:hover {
-    background: #0cc;
+    background: linear-gradient(135deg, rgba(124, 231, 255, 0.9), rgba(192, 132, 255, 0.85));
+    transform: translateY(-2px);
 }
 
 /* ============================================================= */
@@ -121,13 +128,15 @@
 #rested-time {
     position: fixed;
     bottom: 30px;
-    right: 10px;
-    background: rgba(0, 0, 0, 0.6);
-    color: #0ff;
-    padding: 5px 10px;
-    border: 1px solid #0ff;
-    border-radius: 5px;
-    font-family: 'Courier New', monospace;
+    right: 18px;
+    background: var(--panel);
+    color: var(--text);
+    padding: 6px 12px;
+    border: 1px solid rgba(124, 231, 255, 0.35);
+    border-radius: var(--radius);
+    font-family: "Avenir Next", "Segoe UI", "Helvetica Neue", sans-serif;
     z-index: 200;
     text-align: center;
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(10px);
 }

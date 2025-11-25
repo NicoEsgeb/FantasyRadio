@@ -397,36 +397,45 @@ document.addEventListener("DOMContentLoaded", function() {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
     });
+    const EFFECT_DENSITY = window.innerWidth > 1400 ? 1 : 0.8;
+    const FIRE_FLY_COUNT = Math.round(50 * EFFECT_DENSITY);
+    const RAIN_COUNT = Math.round(90 * EFFECT_DENSITY);
     let fireflies = [];
     let bonfires = [];
     let rainParticles = [];
-    const mouseTrail = new MouseTrail({ lifetime: 400, radius: 13 });
+    const mouseTrail = new MouseTrail({ lifetime: 190, radius: 4.4, spacing: 4, maxPoints: 72 });
     let mouse = { x: null, y: null, radius: 13 };
     window.mouse = mouse;
     window.bonfires = bonfires;
-    window.addEventListener("mousemove", event => {
-        mouse.x = event.clientX;
-        mouse.y = event.clientY;
-        mouseTrail.addPoint(event.clientX, event.clientY);
-    });
+    const handlePointerMove = (event) => {
+        const evts = event.getCoalescedEvents ? event.getCoalescedEvents() : [event];
+        const e = evts[evts.length - 1];
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+    };
+    window.addEventListener("pointermove", handlePointerMove, { passive: true });
     document.addEventListener("click", (event) => {
         if (event.target.closest(".interactive")) return;
         bonfires.push(new Bonfire(event.clientX, event.clientY));
     });
-    for (let i = 0; i < 70; i++) {
+    for (let i = 0; i < FIRE_FLY_COUNT; i++) {
         fireflies.push(new Firefly());
     }
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < RAIN_COUNT; i++) {
         rainParticles.push(new Rain());
     }
 
     /* ============================================================= */
     /*                      ANIMATION LOOP                           */
     /* ============================================================= */
-    function animate() {
+    let lastFrameTime = performance.now();
+    function animate(now) {
+        const dt = Math.min(80, now - lastFrameTime);
+        lastFrameTime = now;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         if (mouse.x && mouse.y) {
-            mouseTrail.draw(ctx);
+            mouseTrail.addPoint(mouse.x, mouse.y, now);
+            mouseTrail.draw(ctx, now);
         }
         // Draw rain only if the "Rain" or "Thunderstorm" button is active.
         const rainButton = document.querySelector(".sound-btn[data-sound='rain']");
@@ -447,13 +456,16 @@ document.addEventListener("DOMContentLoaded", function() {
                 bonfires.splice(i, 1);
             }
         }
+        ctx.save();
+        ctx.globalCompositeOperation = "lighter";
         for (let firefly of fireflies) {
-            firefly.update();
+            firefly.update(dt);
             firefly.draw(ctx);
         }
+        ctx.restore();
         requestAnimationFrame(animate);
     }
-    animate();
+    animate(performance.now());
 
     /* ============================================================= */
     /*           RADIO MENU TOGGLE & INTERACTION SETUP               */

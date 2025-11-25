@@ -11,38 +11,39 @@
     left: 20px;
     width: 480px;
     max-height: 600px;
-    background: rgba(0, 0, 0, 0.9);
-    border: 1px solid #0ff;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    background: var(--panel-strong);
+    border: 1px solid rgba(124, 231, 255, 0.35);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(12px);
     overflow: hidden;
     display: none;
-    font-family: 'Arial', sans-serif;
-    z-index: 100;
+    font-family: "Avenir Next", "Segoe UI", "Helvetica Neue", sans-serif;
+    z-index: 120; /* Sit above the toggle button */
 }
 
 /* Chat header styling using dark background and cyan text */
 #chat-modal .chat-header {
-    background: rgba(0, 0, 0, 0.6);
-    color: #0ff;
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--text);
     padding: 10px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 1px solid #0ff;
+    border-bottom: 1px solid rgba(124, 231, 255, 0.35);
 }
 
 /* Chat size controls styling */
 .chat-size-controls {
     padding: 6px 10px;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(255, 255, 255, 0.02);
     text-align: right;
-    border-bottom: 1px solid #0ff;
+    border-bottom: 1px solid rgba(124, 231, 255, 0.3);
 }
 .chat-size-controls button {
-    background: rgba(0, 0, 0, 0.6);
-    color: #0ff;
-    border: 1px solid #0ff;
+    background: linear-gradient(135deg, rgba(124, 231, 255, 0.12), rgba(192, 132, 255, 0.12));
+    color: var(--text);
+    border: 1px solid rgba(124, 231, 255, 0.35);
     border-radius: 4px;
     cursor: pointer;
     font-size: 1em;
@@ -50,45 +51,45 @@
     padding: 2px 6px;
 }
 .chat-size-controls button:hover {
-    background: rgba(0, 255, 255, 0.2);
+    background: linear-gradient(135deg, rgba(124, 231, 255, 0.25), rgba(192, 132, 255, 0.2));
 }
 
 /* Chat nickname area styling */
 #chat-modal .chat-nickname {
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(255, 255, 255, 0.02);
     padding: 8px;
-    border-bottom: 1px solid #0ff;
+    border-bottom: 1px solid rgba(124, 231, 255, 0.3);
     display: flex;
     align-items: center;
     gap: 4px;
 }
 #chat-modal .chat-nickname label {
     font-size: 1em;
-    color: #0ff;
+    color: var(--text);
     margin: 0;
     white-space: nowrap;
 }
 #chat-modal .chat-nickname input {
     flex: 1;
     padding: 6px;
-    border: 1px solid #0ff;
+    border: 1px solid rgba(124, 231, 255, 0.35);
     border-radius: 4px;
     font-size: 1em;
-    background: #000;
-    color: #0ff;
+    background: #050913;
+    color: var(--text);
 }
 #chat-modal .chat-nickname button {
     padding: 6px 8px;
-    background: rgba(0, 0, 0, 0.6);
-    color: #0ff;
-    border: 1px solid #0ff;
+    background: linear-gradient(135deg, rgba(124, 231, 255, 0.14), rgba(192, 132, 255, 0.14));
+    color: var(--text);
+    border: 1px solid rgba(124, 231, 255, 0.35);
     border-radius: 4px;
     cursor: pointer;
     font-size: 1em;
     white-space: nowrap;
 }
 #chat-modal .chat-nickname button:hover {
-    background: rgba(0, 255, 255, 0.2);
+    background: linear-gradient(135deg, rgba(124, 231, 255, 0.3), rgba(192, 132, 255, 0.22));
 }
 
 /* Chat messages container styling */
@@ -96,62 +97,70 @@
     padding: 10px;
     height: 350px;
     overflow-y: auto;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(255, 255, 255, 0.01);
 }
 #chat-messages div {
     margin-bottom: 8px;
     padding: 6px;
-    background: rgba(0, 0, 0, 0.7);
-    border: 1px solid #0ff;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(124, 231, 255, 0.25);
     border-radius: 5px;
     font-size: 1em;
-    color: #0ff;
+    color: var(--text);
 }
 
 /* Chat input container styling */
 #chat-input-container {
     display: flex;
-    border-top: 1px solid #0ff;
-    background: rgba(0, 0, 0, 0.8);
+    border-top: 1px solid rgba(124, 231, 255, 0.3);
+    background: rgba(255, 255, 255, 0.02);
     padding: 8px;
 }
 #chat-input-container input[type="text"] {
     flex: 1;
     padding: 6px;
     font-size: 1em;
-    border: 1px solid #0ff;
+    border: 1px solid rgba(124, 231, 255, 0.35);
     border-radius: 4px;
-    background: #000;
-    color: #0ff;
+    background: #050913;
+    color: var(--text);
 }
 #chat-input-container button {
     margin-left: 4px;
     padding: 6px 10px;
-    background: rgba(0, 0, 0, 0.6);
-    color: #0ff;
-    border: 1px solid #0ff;
+    background: linear-gradient(135deg, rgba(124, 231, 255, 0.14), rgba(192, 132, 255, 0.14));
+    color: var(--text);
+    border: 1px solid rgba(124, 231, 255, 0.35);
     border-radius: 4px;
     cursor: pointer;
     font-size: 1em;
 }
 #chat-input-container button:hover {
-    background: rgba(0, 255, 255, 0.2);
+    background: linear-gradient(135deg, rgba(124, 231, 255, 0.3), rgba(192, 132, 255, 0.22));
 }
 
 /* Chat toggle button styling - positioned on the left below the sound effects menu */
 #chat-btn {
     position: absolute;
-    top: calc(20% + 100px); /* Adjust as needed */
-    left: 20px;
+    /* Keep the button tucked just under the ambience controls */
+    top: calc(22% + 240px);
+    left: 24px;
     padding: 10px 14px;
-    background: rgba(0, 0, 0, 0.6);
-    color: #0ff;
-    border: 1px solid #0ff;
-    border-radius: 50%;
+    background: var(--panel);
+    color: var(--text);
+    border: 1px solid rgba(124, 231, 255, 0.4);
+    border-radius: 14px;
     cursor: pointer;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.5);
-    z-index: 101;
+    box-shadow: var(--shadow);
+    z-index: 90; /* Keep below the modal so it doesn’t overlap when open */
 }
 #chat-btn:hover {
-    background: rgba(0, 255, 255, 0.2);
+    background: linear-gradient(135deg, rgba(124, 231, 255, 0.26), rgba(192, 132, 255, 0.2));
+}
+
+@media (max-height: 820px) {
+    #chat-btn {
+        top: auto;
+        bottom: 32px;
+    }
 }
