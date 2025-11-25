@@ -399,7 +399,13 @@ document.addEventListener("DOMContentLoaded", function() {
     });
     const EFFECT_DENSITY = window.innerWidth > 1400 ? 1 : 0.8;
     const FIRE_FLY_COUNT = Math.round(50 * EFFECT_DENSITY);
-    const RAIN_COUNT = Math.round(90 * EFFECT_DENSITY);
+    const RAIN_COUNT = Math.round(140 * EFFECT_DENSITY);
+    const wind = { current: 0, target: 0, changeIn: 0 };
+    const setWindTarget = () => {
+        wind.target = (Math.random() * 2 - 1) * 260; // px/s horizontal gust
+        wind.changeIn = 900 + Math.random() * 900;   // ms until next change
+    };
+    setWindTarget();
     let fireflies = [];
     let bonfires = [];
     let rainParticles = [];
@@ -424,6 +430,12 @@ document.addEventListener("DOMContentLoaded", function() {
     for (let i = 0; i < RAIN_COUNT; i++) {
         rainParticles.push(new Rain());
     }
+    const updateWind = (dt) => {
+        wind.changeIn -= dt;
+        if (wind.changeIn <= 0) setWindTarget();
+        const blend = Math.min(1, dt * 0.0025);
+        wind.current += (wind.target - wind.current) * blend;
+    };
 
     /* ============================================================= */
     /*                      ANIMATION LOOP                           */
@@ -431,7 +443,9 @@ document.addEventListener("DOMContentLoaded", function() {
     let lastFrameTime = performance.now();
     function animate(now) {
         const dt = Math.min(80, now - lastFrameTime);
+        const dtSeconds = dt * 0.001;
         lastFrameTime = now;
+        updateWind(dt);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         if (mouse.x && mouse.y) {
             mouseTrail.addPoint(mouse.x, mouse.y, now);
@@ -445,8 +459,8 @@ document.addEventListener("DOMContentLoaded", function() {
             (thunderButton && thunderButton.classList.contains("active"))
         ) {
             for (let rain of rainParticles) {
-                rain.update();
-                rain.draw(ctx);
+                rain.update(dtSeconds, wind.current);
+                rain.draw(ctx, wind.current);
             }
         }
         for (let i = bonfires.length - 1; i >= 0; i--) {

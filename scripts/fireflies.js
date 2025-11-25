@@ -2,7 +2,7 @@ class Firefly {
     constructor() {
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
-        this.radius = Math.random() * 1.8 + 1;
+        this.radius = Math.random() * 0.9 + 0.65;
         this.alpha = 0.65 + Math.random() * 0.3;
         this.vx = (Math.random() - 0.5) * 0.05;
         this.vy = (Math.random() - 0.5) * 0.05;
@@ -110,7 +110,7 @@ class Firefly {
 
     draw(ctx) {
         const sprite = this.sprite;
-        const size = this.radius * 12;
+        const size = this.radius * 9.5;
         ctx.save();
         ctx.globalAlpha = this.alpha * this.glowFactor;
         ctx.shadowBlur = 0;
@@ -137,7 +137,7 @@ Firefly.SPRITES = {};
 Firefly.getSprite = function(hue) {
     if (Firefly.SPRITES[hue]) return Firefly.SPRITES[hue];
 
-    const size = 48;
+    const size = 36;
     const buffer = document.createElement("canvas");
     buffer.width = buffer.height = size;
     const bctx = buffer.getContext("2d");
