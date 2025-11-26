@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="css/fireflies.css">
     <!-- New Chat CSS -->
     <link rel="stylesheet" href="css/chat.css">
+    <link rel="stylesheet" href="css/study.css">
 
     <!-- Google Analytics Tracking Snippet -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-61WS06W417"></script>
@@ -52,6 +53,7 @@
     <script defer src="scripts/clock.js"></script>
     <script defer src="scripts/lofi.js"></script>
     <script defer src="scripts/extras.js"></script>
+    <script defer src="scripts/study.js"></script>
     <script defer src="scripts/rain.js"></script>
     <!-- New script for Rested Time tracking -->
     <script defer src="scripts/rested.js"></script>
@@ -122,6 +124,107 @@
         <button id="custom-play" class="custom-play-btn">Play</button>
         <button id="see-radios-btn" class="radio-toggle-btn">See Ambience Radios</button>
     </div>
+
+    <!-- ============================================================= -->
+    <!--              STUDY TOOLS TOGGLE & SLIDEOUT                    -->
+    <!-- ============================================================= -->
+    <button id="study-tools-btn" class="study-toggle-btn">
+        <span class="glow-dot"></span>
+        Study tools
+    </button>
+    <aside id="study-drawer" class="study-drawer" aria-label="Study tools panel">
+        <div class="study-header">
+            <div>
+                <p class="eyebrow">Deep work kit</p>
+                <h3>Pomodoro coach</h3>
+            </div>
+            <button id="study-close" class="study-close" aria-label="Close study tools">&times;</button>
+        </div>
+
+        <div class="study-timer">
+            <div class="mode-pill" id="study-mode-label">Focus</div>
+            <div class="time" id="study-time">25:00</div>
+            <div class="progress">
+                <div class="progress-bar" id="study-progress"></div>
+            </div>
+            <div class="session-meta">
+                <span id="study-cycle">Cycle 1</span>
+                <span id="study-status">Ready</span>
+            </div>
+        </div>
+
+        <div class="study-mode-buttons">
+            <button class="study-mode-btn active" data-mode="focus">Focus</button>
+            <button class="study-mode-btn" data-mode="short">Short break</button>
+            <button class="study-mode-btn" data-mode="long">Long break</button>
+        </div>
+
+        <div class="study-actions">
+            <button id="study-start" class="primary">Start</button>
+            <button id="study-reset" class="ghost">Reset</button>
+        </div>
+
+        <div class="study-presets">
+            <p class="eyebrow">Presets</p>
+            <div class="preset-chips">
+                <button class="preset-chip" data-focus="25" data-short="5" data-long="15">25/5/15</button>
+                <button class="preset-chip" data-focus="50" data-short="10" data-long="20">50/10/20</button>
+                <button class="preset-chip" data-focus="52" data-short="17" data-long="25">52/17</button>
+            </div>
+        </div>
+
+        <div class="study-sliders">
+            <div class="slider-row">
+                <label for="focus-length">Focus</label>
+                <div class="slider-input">
+                    <input type="range" id="focus-length" min="10" max="90" value="25">
+                    <span class="value" id="focus-value">25m</span>
+                </div>
+            </div>
+            <div class="slider-row">
+                <label for="short-length">Short break</label>
+                <div class="slider-input">
+                    <input type="range" id="short-length" min="3" max="30" value="5">
+                    <span class="value" id="short-value">5m</span>
+                </div>
+            </div>
+            <div class="slider-row">
+                <label for="long-length">Long break</label>
+                <div class="slider-input">
+                    <input type="range" id="long-length" min="10" max="45" value="15">
+                    <span class="value" id="long-value">15m</span>
+                </div>
+            </div>
+            <div class="slider-row">
+                <label for="long-frequency">Long break every</label>
+                <div class="slider-input">
+                    <input type="range" id="long-frequency" min="2" max="6" value="4">
+                    <span class="value" id="long-frequency-value">4 cycles</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="study-toggles">
+            <label class="toggle">
+                <input type="checkbox" id="study-auto-next" checked>
+                <span>Auto-start next block</span>
+            </label>
+            <label class="toggle">
+                <input type="checkbox" id="study-chime" checked>
+                <span>Soft chime on switch</span>
+            </label>
+        </div>
+
+        <div class="study-checklist">
+            <p class="eyebrow">Pre-focus ritual</p>
+            <div class="chips">
+                <label class="ritual"><input type="checkbox" data-ritual="hydrate"> Hydrate</label>
+                <label class="ritual"><input type="checkbox" data-ritual="stretch"> Stretch</label>
+                <label class="ritual"><input type="checkbox" data-ritual="plan"> Plan 1 task</label>
+            </div>
+            <textarea id="study-note" placeholder="Jot down what you're tackling next"></textarea>
+        </div>
+    </aside>
 
     <!-- ============================================================= -->
     <!--                    AUDIO PLAYBACK ELEMENT                   -->

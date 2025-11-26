@@ -1,0 +1,358 @@
+/* Study tools drawer and Pomodoro styling */
+
+#study-tools-btn {
+    position: absolute;
+    bottom: 96px;
+    right: 28px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 14px;
+    background: var(--panel);
+    color: var(--text);
+    border: 1px solid rgba(124, 231, 255, 0.4);
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(12px);
+    z-index: 180;
+    transition: transform 0.2s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+
+#study-tools-btn:hover {
+    background: linear-gradient(135deg, rgba(124, 231, 255, 0.26), rgba(192, 132, 255, 0.2));
+    transform: translateY(-2px);
+    box-shadow: 0 16px 34px rgba(124, 231, 255, 0.22);
+}
+
+#study-tools-btn .glow-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 12px rgba(124, 231, 255, 0.9);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.3); opacity: 0.7; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.study-drawer {
+    position: absolute;
+    bottom: 92px;
+    right: -380px;
+    width: 340px;
+    max-height: 80vh;
+    padding: 16px;
+    background: var(--panel-strong);
+    border: 1px solid rgba(124, 231, 255, 0.35);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(16px);
+    overflow-y: auto;
+    transition: right 0.45s ease;
+    z-index: 220;
+}
+
+.study-drawer.open {
+    right: 26px;
+}
+
+.study-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.study-header h3 {
+    margin: 2px 0 0;
+    font-size: 1.1em;
+    letter-spacing: 0.02em;
+}
+
+.study-header .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 0.7em;
+    color: var(--muted);
+}
+
+.study-close {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(124, 231, 255, 0.35);
+    color: var(--text);
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.study-timer {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(124, 231, 255, 0.2);
+    border-radius: 12px;
+    padding: 12px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.study-timer .mode-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, rgba(124, 231, 255, 0.28), rgba(192, 132, 255, 0.22));
+    color: var(--ink);
+    font-weight: 600;
+}
+
+.study-timer .time {
+    font-size: 2.8em;
+    letter-spacing: 0.12em;
+    margin: 6px 0;
+}
+
+.study-timer .progress {
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 999px;
+    overflow: hidden;
+    margin: 6px 0 4px;
+}
+
+.study-timer .progress-bar {
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, rgba(124, 231, 255, 0.9), rgba(192, 132, 255, 0.8));
+    transition: width 0.4s ease;
+}
+
+.study-timer .session-meta {
+    display: flex;
+    justify-content: space-between;
+    color: var(--muted);
+    font-size: 0.9em;
+}
+
+.study-mode-buttons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin: 12px 0 6px;
+}
+
+.study-mode-btn {
+    background: linear-gradient(135deg, rgba(124, 231, 255, 0.14), rgba(192, 132, 255, 0.14));
+    color: var(--text);
+    border: 1px solid rgba(124, 231, 255, 0.35);
+    border-radius: 10px;
+    padding: 10px 8px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+
+.study-mode-btn.active {
+    background: linear-gradient(135deg, rgba(124, 231, 255, 0.28), rgba(192, 132, 255, 0.22));
+    box-shadow: 0 12px 28px rgba(124, 231, 255, 0.22);
+}
+
+.study-mode-btn:hover {
+    transform: translateY(-1px);
+}
+
+.study-actions {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.study-actions .primary {
+    background: linear-gradient(135deg, rgba(124, 231, 255, 0.42), rgba(192, 132, 255, 0.3));
+    color: var(--ink);
+    font-weight: 700;
+    border: 1px solid rgba(124, 231, 255, 0.6);
+}
+
+.study-actions .ghost {
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text);
+    border: 1px solid rgba(124, 231, 255, 0.3);
+}
+
+.study-actions button {
+    padding: 12px 10px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.25s ease, background 0.25s ease;
+    box-shadow: var(--shadow);
+}
+
+.study-actions button:hover {
+    transform: translateY(-1px);
+}
+
+.study-presets .preset-chips {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 6px;
+}
+
+.preset-chip {
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text);
+    border: 1px solid rgba(124, 231, 255, 0.25);
+    border-radius: 999px;
+    padding: 8px 10px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+
+.preset-chip:hover {
+    background: linear-gradient(135deg, rgba(124, 231, 255, 0.2), rgba(192, 132, 255, 0.18));
+    transform: translateY(-1px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+}
+
+.study-sliders {
+    margin: 12px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.slider-row {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(124, 231, 255, 0.18);
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.slider-row label {
+    display: block;
+    font-size: 0.95em;
+    color: var(--text);
+    margin-bottom: 6px;
+}
+
+.slider-input {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.slider-input input[type="range"] {
+    flex: 1;
+    accent-color: var(--accent);
+}
+
+.slider-input .value {
+    color: var(--muted);
+    min-width: 60px;
+    text-align: right;
+}
+
+.study-toggles {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 10px 0;
+}
+
+.toggle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.02);
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid rgba(124, 231, 255, 0.18);
+    color: var(--text);
+}
+
+.study-checklist .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.ritual {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 10px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(124, 231, 255, 0.2);
+    color: var(--text);
+    cursor: pointer;
+}
+
+.ritual.checked {
+    border-color: rgba(124, 231, 255, 0.6);
+    background: linear-gradient(135deg, rgba(124, 231, 255, 0.22), rgba(192, 132, 255, 0.2));
+    box-shadow: 0 10px 22px rgba(124, 231, 255, 0.18);
+}
+
+.ritual input {
+    accent-color: var(--accent);
+}
+
+#study-note {
+    width: 100%;
+    min-height: 70px;
+    border-radius: 12px;
+    border: 1px solid rgba(124, 231, 255, 0.2);
+    background: rgba(5, 9, 19, 0.8);
+    color: var(--text);
+    padding: 10px;
+    resize: vertical;
+    font-family: inherit;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.study-checklist .eyebrow,
+.study-presets .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 0.7em;
+    color: var(--muted);
+}
+
+@media (max-width: 1080px) {
+    #study-tools-btn {
+        right: 18px;
+        bottom: 88px;
+    }
+    .study-drawer {
+        width: 92vw;
+        max-width: 360px;
+    }
+}
+
+@media (max-width: 720px) {
+    #study-tools-btn {
+        bottom: 82px;
+        right: 50%;
+        transform: translateX(50%);
+    }
+    #study-tools-btn:hover {
+        transform: translateX(50%) translateY(-2px);
+    }
+    .study-drawer {
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%);
+        bottom: 24px;
+    }
+    .study-drawer.open {
+        right: auto;
+        transform: translateX(-50%);
+    }
+}
