@@ -6,17 +6,20 @@ document.addEventListener("DOMContentLoaded", () => {
     const closeBtn = document.getElementById("study-close");
     const modeLabel = document.getElementById("study-mode-label");
     const timeEl = document.getElementById("study-time");
+    const subEl = document.getElementById("study-sub");
     const progressEl = document.getElementById("study-progress");
-    const statusEl = document.getElementById("study-status");
-    const cycleEl = document.getElementById("study-cycle");
-    const modeButtons = Array.from(document.querySelectorAll(".study-mode-btn"));
     const startBtn = document.getElementById("study-start");
+    const skipBtn = document.getElementById("study-skip");
     const resetBtn = document.getElementById("study-reset");
     const presetButtons = Array.from(document.querySelectorAll(".preset-chip"));
     const autoNextToggle = document.getElementById("study-auto-next");
     const chimeToggle = document.getElementById("study-chime");
-    const noteArea = document.getElementById("study-note");
-    const ritualInputs = Array.from(document.querySelectorAll(".ritual input[type='checkbox']"));
+    const todoListEl = document.getElementById("study-todo-list");
+    const todoInput = document.getElementById("study-todo-input");
+    const todoAddBtn = document.getElementById("study-todo-add");
+    const todoCount = document.getElementById("study-todo-count");
+    const advancedToggle = document.getElementById("study-advanced-toggle");
+    const advancedPanel = document.getElementById("study-advanced");
 
     const sliders = [
         { input: document.getElementById("focus-length"), valueEl: document.getElementById("focus-value"), key: "focus", suffix: "m" },
@@ -34,8 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
         longFrequency: 4,
         autoNext: true,
         chime: true,
-        note: "",
-        rituals: { hydrate: false, stretch: false, plan: false }
+        todos: []
     };
 
     let settings = loadSettings();
@@ -53,7 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function loadSettings() {
         try {
             const saved = JSON.parse(localStorage.getItem(storageKey));
-            return { ...defaultSettings, ...saved, rituals: { ...defaultSettings.rituals, ...(saved?.rituals || {}) } };
+            return { ...defaultSettings, ...saved, todos: saved?.todos || [] };
         } catch (e) {
             console.warn("Study tools settings unavailable", e);
             return { ...defaultSettings };
@@ -86,12 +88,8 @@ document.addEventListener("DOMContentLoaded", () => {
         return "Focus";
     }
 
-    function updateCycleLabel() {
-        cycleEl.textContent = `Cycle ${state.cycle}`;
-    }
-
-    function updateStatus(text) {
-        statusEl.textContent = text;
+    function updateSub(text) {
+        subEl.textContent = `Cycle ${state.cycle} · ${text}`;
     }
 
     function updateProgress() {
@@ -105,13 +103,6 @@ document.addEventListener("DOMContentLoaded", () => {
         updateProgress();
     }
 
-    function updateModeButtons() {
-        modeButtons.forEach(btn => {
-            const isActive = btn.dataset.mode === state.mode;
-            btn.classList.toggle("active", isActive);
-        });
-    }
-
     function pauseTimer(setStatus = true) {
         if (timerId) {
             clearInterval(timerId);
@@ -121,7 +112,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const resumeText = state.timeLeft < state.duration ? "Resume" : "Start";
         startBtn.textContent = resumeText;
         if (setStatus) {
-            updateStatus(resumeText === "Resume" ? "Paused" : "Ready");
+            updateSub(resumeText === "Resume" ? "Paused" : "Ready");
         }
     }
 
@@ -139,11 +130,9 @@ document.addEventListener("DOMContentLoaded", () => {
         state.timeLeft = state.duration;
 
         modeLabel.textContent = modeLabelText(mode);
-        updateModeButtons();
-        updateCycleLabel();
         updateDisplay();
         startBtn.textContent = "Start";
-        updateStatus(opts.statusText || "Ready");
+        updateSub(opts.statusText || "Ready");
     }
 
     function playChime() {
@@ -165,7 +154,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    function finishBlock() {
+    function goToNextBlock(statusText) {
         pauseTimer(false);
         playChime();
         let nextMode = "focus";
@@ -173,12 +162,11 @@ document.addEventListener("DOMContentLoaded", () => {
             state.completedFocus += 1;
             const longBreakDue = state.completedFocus % settings.longFrequency === 0;
             nextMode = longBreakDue ? "long" : "short";
-            updateStatus("Focus wrapped");
         } else {
             nextMode = "focus";
-            updateStatus("Break complete");
         }
-        setMode(nextMode, { advanceCycle: true, statusText: nextMode === "focus" ? "Ready to focus" : "Take a breath", skipPause: true });
+        const label = statusText || (nextMode === "focus" ? "Ready to focus" : "Take a breath");
+        setMode(nextMode, { advanceCycle: true, statusText: label, skipPause: true });
         if (settings.autoNext) {
             startTimer();
         }
@@ -189,7 +177,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (state.timeLeft <= 0) {
             state.timeLeft = 0;
             updateDisplay();
-            finishBlock();
+            goToNextBlock();
             return;
         }
         updateDisplay();
@@ -199,7 +187,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (state.running) return;
         state.running = true;
         startBtn.textContent = "Pause";
-        updateStatus("In progress");
+        updateSub("In progress");
         timerId = setInterval(tick, 1000);
     }
 
@@ -218,12 +206,7 @@ document.addEventListener("DOMContentLoaded", () => {
         longFrequencyValue.textContent = `${settings.longFrequency} cycles`;
         autoNextToggle.checked = settings.autoNext;
         chimeToggle.checked = settings.chime;
-        noteArea.value = settings.note || "";
-        ritualInputs.forEach(input => {
-            const ritualKey = input.dataset.ritual;
-            input.checked = Boolean(settings.rituals[ritualKey]);
-            input.parentElement.classList.toggle("checked", input.checked);
-        });
+        renderTodos();
     }
 
     function handleSliderChange(slider) {
@@ -266,18 +249,20 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    skipBtn.addEventListener("click", () => goToNextBlock("Skipped"));
     resetBtn.addEventListener("click", resetTimer);
-
-    modeButtons.forEach(btn => {
-        btn.addEventListener("click", () => {
-            const mode = btn.dataset.mode;
-            setMode(mode, { statusText: "Ready" });
-        });
-    });
 
     presetButtons.forEach(btn => {
         btn.addEventListener("click", () => handlePreset(btn));
     });
+
+    if (advancedToggle && advancedPanel) {
+        advancedToggle.addEventListener("click", () => {
+            const isOpen = advancedPanel.classList.toggle("open");
+            advancedToggle.setAttribute("aria-expanded", String(isOpen));
+            advancedToggle.textContent = isOpen ? "Hide fine tune" : "Fine tune";
+        });
+    }
 
     sliders.forEach(slider => {
         slider.input.addEventListener("input", () => handleSliderChange(slider));
@@ -300,19 +285,88 @@ document.addEventListener("DOMContentLoaded", () => {
         saveSettings();
     });
 
-    noteArea.addEventListener("input", () => {
-        settings.note = noteArea.value;
-        saveSettings();
-    });
+    function updateTodoCount() {
+        if (!todoCount) return;
+        const total = settings.todos.length;
+        const done = settings.todos.filter((t) => t.done).length;
+        todoCount.textContent = total ? `${done}/${total}` : "0/0";
+    }
 
-    ritualInputs.forEach(input => {
-        input.addEventListener("change", () => {
-            const ritualKey = input.dataset.ritual;
-            settings.rituals[ritualKey] = input.checked;
-            input.parentElement.classList.toggle("checked", input.checked);
-            saveSettings();
+    function renderTodos() {
+        if (!todoListEl) return;
+        todoListEl.innerHTML = "";
+        if (!settings.todos.length) {
+            const empty = document.createElement("div");
+            empty.className = "todo-empty";
+            empty.textContent = "Drop a couple of tasks for this focus block.";
+            todoListEl.appendChild(empty);
+            updateTodoCount();
+            return;
+        }
+        settings.todos.forEach((item, idx) => {
+            const row = document.createElement("div");
+            row.className = "todo-item" + (item.done ? " done" : "");
+
+            const box = document.createElement("button");
+            box.className = "todo-box";
+            box.setAttribute("aria-pressed", String(item.done));
+            box.setAttribute("aria-label", item.done ? "Mark task as not done" : "Mark task as done");
+            box.addEventListener("click", () => toggleTodo(idx));
+
+            const text = document.createElement("label");
+            text.className = "todo-text";
+            text.textContent = item.text;
+            text.addEventListener("click", () => toggleTodo(idx));
+
+            const remove = document.createElement("button");
+            remove.className = "todo-remove";
+            remove.textContent = "×";
+            remove.setAttribute("aria-label", `Remove ${item.text}`);
+            remove.addEventListener("click", () => removeTodo(idx));
+
+            row.appendChild(box);
+            row.appendChild(text);
+            row.appendChild(remove);
+            todoListEl.appendChild(row);
         });
-    });
+        updateTodoCount();
+    }
+
+    function addTodo(text) {
+        const clean = text.trim();
+        if (!clean) return;
+        settings.todos.push({ text: clean, done: false });
+        saveSettings();
+        renderTodos();
+    }
+
+    function toggleTodo(idx) {
+        const item = settings.todos[idx];
+        if (!item) return;
+        item.done = !item.done;
+        saveSettings();
+        renderTodos();
+    }
+
+    function removeTodo(idx) {
+        settings.todos.splice(idx, 1);
+        saveSettings();
+        renderTodos();
+    }
+
+    if (todoAddBtn && todoInput) {
+        todoAddBtn.addEventListener("click", () => {
+            addTodo(todoInput.value);
+            todoInput.value = "";
+            todoInput.focus();
+        });
+        todoInput.addEventListener("keyup", (e) => {
+            if (e.key === "Enter") {
+                addTodo(todoInput.value);
+                todoInput.value = "";
+            }
+        });
+    }
 
     window.addEventListener("keydown", (e) => {
         if (e.key === "Escape") {
